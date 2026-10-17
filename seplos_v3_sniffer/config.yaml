@@ -1,0 +1,44 @@
+name: Seplos V3 Battery Sniffer
+version: "1.0.0"
+slug: seplos_v3_sniffer
+description: Passive RS485 sniffer for Seplos V3 multipack batteries (Fogstar 16.1 kWh ECO) via a Waveshare RS485-to-Ethernet bridge. Publishes every pack to MQTT with discovery.
+url: https://github.com/DpunktS/ioBroker.seplos-v3-sniffer
+arch:
+  - aarch64
+  - amd64
+  - armv7
+startup: services
+init: false
+boot: auto
+services:
+  - mqtt:need
+ingress: true
+ingress_port: 8099
+panel_icon: mdi:battery-sync
+panel_title: Battery bank
+options:
+  waveshare_host: ""
+  waveshare_port: 8899
+  publish_interval: 5
+  stale_after: 60
+  mqtt_prefix: seplos
+  discovery_prefix: homeassistant
+  pack_names:
+    - address: 1
+      name: Fogstar pack 1
+  log_level: info
+schema:
+  waveshare_host: str
+  waveshare_port: port
+  publish_interval: int(1,60)
+  stale_after: int(10,600)
+  mqtt_prefix: str
+  discovery_prefix: str
+  pack_names:
+    - address: int(0,16)
+      name: str
+  log_level: list(debug|info|warning|error)
+  mqtt_host: str?
+  mqtt_port: port?
+  mqtt_user: str?
+  mqtt_password: password?
