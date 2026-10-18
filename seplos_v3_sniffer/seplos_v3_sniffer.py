@@ -179,9 +179,13 @@ EVENTS = [
     # TB06 capacity
     (14, 0x04, "soc_alarm", False), (14, 0x08, "soc_protection", True), (14, 0x10, "cell_difference_alarm", False),
     # TB08 equalisation / modes
-    (16, 0x01, "low_soc_alarm", False), (16, 0x02, "intermittent_charge", False),
+    # Bits 0 and 5 were labelled low_soc_alarm / under_soc_protection, but on real
+    # Fogstar ECO packs they set together with the per-cell balancing bits (bytes 6-7)
+    # at 100 % SOC with no charge-limit cut, so they are equalisation status, not
+    # SOC events. Reported as info flags instead of alarms/protections.
+    (16, 0x01, "equalisation_active", False), (16, 0x02, "intermittent_charge", False),
     (16, 0x04, "external_switch_control", False), (16, 0x08, "static_standby_sleep", False),
-    (16, 0x10, "history_data_recording", False), (16, 0x20, "under_soc_protection", True),
+    (16, 0x10, "history_data_recording", False), (16, 0x20, "equalisation_flag_bit5", False),
     (16, 0x40, "active_limited_current", False), (16, 0x80, "passive_limited_current", False),
     # TB15 hard faults (all protections)
     (17, 0x01, "ntc_fault", True), (17, 0x02, "afe_fault", True), (17, 0x04, "charge_mosfet_fault", True),
@@ -191,7 +195,7 @@ EVENTS = [
 # Informational bits that are not really alarms
 INFO_EVENTS = {"intermittent_charge", "external_switch_control", "static_standby_sleep",
                "history_data_recording", "active_limited_current", "passive_limited_current",
-               "cell_low_temp_heating"}
+               "cell_low_temp_heating", "equalisation_active", "equalisation_flag_bit5"}
 
 
 def decode_pic(p: bytes) -> dict:

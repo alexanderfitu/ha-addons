@@ -1,5 +1,5 @@
 name: Seplos V3 Battery Sniffer
-version: "1.0.2"
+version: "1.0.3"
 slug: seplos_v3_sniffer
 description: Passive RS485 sniffer for Seplos V3 multipack batteries (Fogstar 16.1 kWh ECO) via a Waveshare RS485-to-Ethernet bridge. Publishes every pack to MQTT with discovery.
 url: https://github.com/DpunktS/ioBroker.seplos-v3-sniffer
